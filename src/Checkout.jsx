@@ -7,12 +7,12 @@ const Checkout = () => {
   const navigate = useNavigate();
   const cookies = Cookies();
 
-  // استرجاع بيانات الكورس من state
   const course = location.state?.course;
 
   const [studentName, setStudentName] = useState("");
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
+  const [error, setError] = useState(""); // لحفظ رسالة الخطأ
 
   if (!course) {
     return (
@@ -31,15 +31,21 @@ const Checkout = () => {
   }
 
   const handlePayment = () => {
+    // التحقق من الحقول المطلوبة
+    if (!studentName || !address || !phone) {
+      setError("جميع الحقول مطلوبة!");
+      return;
+    }
+
+    setError(""); // إزالة أي رسالة خطأ
+
     const token = cookies.get("token");
 
     if (!token) {
-      return navigate(
-        `/login?redirect=/paymob-payment/${course.courseId}`
-      );
+      return navigate(`/login?redirect=/paymob-payment/${course.courseId}`);
     }
 
-    // هنا ممكن ترسل بيانات الطالب + الكورس للباك إند أو لبوابة الدفع
+    // إرسال البيانات أو التوجه لبوابة الدفع
     console.log("Student Info:", { studentName, address, phone, course });
 
     navigate(`/paymob-payment/${course.courseId}`);
@@ -67,6 +73,9 @@ const Checkout = () => {
 
         {/* نموذج بيانات الطالب */}
         <div className="space-y-4">
+          {error && (
+            <p className="text-red-500 font-semibold text-center">{error}</p>
+          )}
           <input
             type="text"
             placeholder="الاسم بالكامل"
