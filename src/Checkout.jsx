@@ -9,10 +9,10 @@ const Checkout = () => {
 
   const course = location.state?.course;
 
-  const [studentName, setStudentName] = useState("");
-  const [address, setAddress] = useState("");
-  const [phone, setPhone] = useState("");
-  const [error, setError] = useState(""); // لحفظ رسالة الخطأ
+const [studentName, setStudentName] = useState("");
+const [lastName, setLastName] = useState("");
+const [email, setEmail] = useState("");
+  const [error, setError] = useState("");
 
   if (!course) {
     return (
@@ -76,27 +76,28 @@ const Checkout = () => {
           {error && (
             <p className="text-red-500 font-semibold text-center">{error}</p>
           )}
-          <input
-            type="text"
-            placeholder="الاسم بالكامل"
-            value={studentName}
-            onChange={(e) => setStudentName(e.target.value)}
-            className="w-full border rounded px-3 py-2 text-gray-800 dark:text-gray-200 bg-gray-100 dark:bg-gray-700"
-          />
-          <input
-            type="text"
-            placeholder="العنوان"
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-            className="w-full border rounded px-3 py-2 text-gray-800 dark:text-gray-200 bg-gray-100 dark:bg-gray-700"
-          />
-          <input
-            type="tel"
-            placeholder="رقم التليفون"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            className="w-full border rounded px-3 py-2 text-gray-800 dark:text-gray-200 bg-gray-100 dark:bg-gray-700"
-          />
+         <input
+  type="text"
+  placeholder="الاسم الأول"
+  value={studentName}
+  onChange={(e) => setStudentName(e.target.value)}
+  className="w-full border rounded px-3 py-2 text-gray-800 dark:text-gray-200 bg-gray-100 dark:bg-gray-700"
+/>
+
+<input
+  type="text"
+  placeholder="الاسم الثاني"
+  value={lastName}
+  onChange={(e) => setLastName(e.target.value)}
+  className="w-full border rounded px-3 py-2 text-gray-800 dark:text-gray-200 bg-gray-100 dark:bg-gray-700"
+/>
+         <input
+  type="email"
+  placeholder="البريد الإلكتروني"
+  value={email}
+  onChange={(e) => setEmail(e.target.value)}
+  className="w-full border rounded px-3 py-2 text-gray-800 dark:text-gray-200 bg-gray-100 dark:bg-gray-700"
+/>
         </div>
 
         {/* زر الدفع */}
