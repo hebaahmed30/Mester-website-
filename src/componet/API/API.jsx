@@ -1,6 +1,6 @@
 // During development, target backend directly; in production use current origin
 const isDev = import.meta && import.meta.env && import.meta.env.DEV;
-const origin = isDev ? "https://localhost:7155" : window.location.origin;
+const origin = isDev ? "https://localhost:7155" : "https://api.mr-ahmed-gaber.com" /*window.location.origin*/;
 export const BASEURL = `${origin}/api`;
 export const SIGNUP_ENDPOINT = "Accounts/SignUp";
 export const LOGIN_ENDPOINT = "Accounts/Login";
