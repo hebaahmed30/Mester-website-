@@ -105,7 +105,7 @@ function Login() {
 
   const handleResetPassword = async (e: React.FormEvent) => {
     e.preventDefault()
-    localStorage.setItem("email", email)
+    cookies.set("email", email)
     const sendCodeRes = await sendRequest(
       BASEURL,
       `${SENDCODE_ENDPOINT}?email=${encodeURIComponent(email)}&isForResetPassword=${reset}`,

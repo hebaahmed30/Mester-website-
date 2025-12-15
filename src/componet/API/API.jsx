@@ -12,7 +12,7 @@ export const ADDUNITETOCOURSES_ENDPOINT = "Courses/AddUniteToCourse";
 export const ADDASSIGNMENT_ENDPOINT = "Courses/AddAssignment";
 export const ALLCOURSESINSAMESTAGE_ENDPOINT = "Courses/AllCoursesInSameStage";
 export const RESETPASSWORD_ENDPOINT = "Accounts/ResetPassword";
-export const VALIDATERESETPASSWORD_ENDPOINT = "Accounts/ValidateResetPasswordCode";
+export const VALIDATERESETPASSWORD_ENDPOINT = "Accounts/ValidateCode";
 export const GETSTUDENTS = `${BASEURL}/Admin/students?blocked=`;
 export const USERSFORCOURESE = `${BASEURL}/Courses/AllStudentsInCoursById`;
 export const BLACKLIST_ADD = "Admin/blacklist/add";

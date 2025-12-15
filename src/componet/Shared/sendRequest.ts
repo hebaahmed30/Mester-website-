@@ -29,7 +29,7 @@ const sendRequest = async (
       "Accounts/SignUp",
       "Accounts/SendCode",
       "Accounts/ValidateCode",
-      "Accounts/ValidateResetPasswordCode",
+      "Accounts/ValidateCode",
       "Accounts/ResetPassword",
       "PayMob/start",
       "PayMob/callback",
