@@ -9,11 +9,12 @@ const Checkout = () => {
 
   const course = location.state?.course;
 
-const [studentName, setStudentName] = useState("");
-const [lastName, setLastName] = useState("");
-const [email, setEmail] = useState("");
+  const [studentName, setStudentName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
   const [error, setError] = useState("");
 
+  // لو مفيش كورس
   if (!course) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -31,73 +32,87 @@ const [email, setEmail] = useState("");
   }
 
   const handlePayment = () => {
-    // التحقق من الحقول المطلوبة
-    if (!studentName || !address || !phone) {
-      setError("جميع الحقول مطلوبة!");
+    // ✅ الصح: accessToken
+    const accessToken =
+      cookies.get("accessToken") || localStorage.getItem("accessToken");
+
+    // 1️⃣ لو مش عامل لوجين
+    if (!accessToken) {
+      navigate("/login", {
+        state: {
+          redirectTo: "/checkout",
+          course,
+        },
+      });
       return;
     }
 
-    setError(""); // إزالة أي رسالة خطأ
-
-    const token = cookies.get("token");
-
-    if (!token) {
-      return navigate(`/login?redirect=/paymob-payment/${course.courseId}`);
+    // 2️⃣ تحقق من البيانات
+    if (!studentName || !lastName || !email) {
+      setError("من فضلك أدخل جميع البيانات");
+      return;
     }
 
-    // إرسال البيانات أو التوجه لبوابة الدفع
-    console.log("Student Info:", { studentName, address, phone, course });
+    setError("");
 
-    navigate(`/paymob-payment/${course.courseId}`);
+    // 3️⃣ التوجه لبوابة الدفع
+navigate(
+  `/paymob-payment/${course.courseId}/${course.coursePrice}/${encodeURIComponent(course.courseName)}`
+)
+
+
+
   };
 
   return (
-    <div className="min-h-screen flex justify-center items-start bg-gray-50 dark:bg-gray-900 p-6 pt-20">
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-xl w-full max-w-lg p-6">
-        <h1 className="text-2xl font-bold mb-4 text-center text-gray-800 dark:text-white">
+    <div className="min-h-screen flex justify-center items-start bg-gray-50 p-6 pt-20">
+      <div className="bg-white rounded-xl shadow-xl w-full max-w-lg p-6">
+        <h1 className="text-2xl font-bold mb-4 text-center">
           صفحة الدفع
         </h1>
 
         {/* تفاصيل الكورس */}
         <div className="mb-6 border-b pb-4">
-          <h2 className="text-xl font-semibold text-gray-800 dark:text-white mb-2">
+          <h2 className="text-xl font-semibold mb-2">
             {course.courseName}
           </h2>
-          <p className="text-gray-700 dark:text-gray-300 mb-2">
-            {course.courseDescription}
-          </p>
-          <p className="text-gray-800 dark:text-gray-200 font-bold">
+          <p className="mb-2">{course.courseDescription}</p>
+          <p className="font-bold">
             السعر: {course.coursePrice} جنيه
           </p>
         </div>
 
-        {/* نموذج بيانات الطالب */}
+        {/* بيانات الطالب */}
         <div className="space-y-4">
           {error && (
-            <p className="text-red-500 font-semibold text-center">{error}</p>
+            <p className="text-red-500 font-semibold text-center">
+              {error}
+            </p>
           )}
-         <input
-  type="text"
-  placeholder="الاسم الأول"
-  value={studentName}
-  onChange={(e) => setStudentName(e.target.value)}
-  className="w-full border rounded px-3 py-2 text-gray-800 dark:text-gray-200 bg-gray-100 dark:bg-gray-700"
-/>
 
-<input
-  type="text"
-  placeholder="الاسم الثاني"
-  value={lastName}
-  onChange={(e) => setLastName(e.target.value)}
-  className="w-full border rounded px-3 py-2 text-gray-800 dark:text-gray-200 bg-gray-100 dark:bg-gray-700"
-/>
-         <input
-  type="email"
-  placeholder="البريد الإلكتروني"
-  value={email}
-  onChange={(e) => setEmail(e.target.value)}
-  className="w-full border rounded px-3 py-2 text-gray-800 dark:text-gray-200 bg-gray-100 dark:bg-gray-700"
-/>
+          <input
+            type="text"
+            placeholder="الاسم الأول"
+            value={studentName}
+            onChange={(e) => setStudentName(e.target.value)}
+            className="w-full border rounded px-3 py-2"
+          />
+
+          <input
+            type="text"
+            placeholder="الاسم الثاني"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+            className="w-full border rounded px-3 py-2"
+          />
+
+          <input
+            type="email"
+            placeholder="البريد الإلكتروني"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full border rounded px-3 py-2"
+          />
         </div>
 
         {/* زر الدفع */}
