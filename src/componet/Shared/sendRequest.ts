@@ -59,7 +59,7 @@ const sendRequest = async (
       if (newToken) {
         cookies.set("accessToken", newToken)
         localStorage.setItem("accessToken", newToken)
-        // إعادة الطلب بعد التجديد
+
         return await sendRequest(baseURL, endpoint, method, data, customHeaders, hasHeaders)
       }
     }
