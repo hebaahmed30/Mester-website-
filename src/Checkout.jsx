@@ -112,6 +112,7 @@ const Checkout = () => {
       }
 
       const data = await res.json();
+      console.log("PAYMOB RESPONSE:", data);
       window.location.href = data.redirectUrl;
     }
 

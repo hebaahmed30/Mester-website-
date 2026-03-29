@@ -7,14 +7,38 @@ import DefaultComponet from "../Shared/DefaultComponet";
 import { AuthContext } from "../Context/AuthContext";
 import { handleSignOut } from "../HomePage/NavbarApp";
 import StuCourses from "./StuCourses"
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import axios from "axios";
 
 const SideBarStudent = () => {
   const { isDarkMode } = useContext(ThemeContext);
   const [isAsideOpen, setAsideOpen] = useState(false);
   const { studentId } = useContext(AuthContext);
+  const location = useLocation();
   const toggleSidebar = () => {
     setAsideOpen(!isAsideOpen);
   };
+  useEffect(() => {
+  const params = new URLSearchParams(location.search);
+
+  const payment = params.get("payment");
+  const orderId = params.get("orderId");
+
+  if (payment === "success" && orderId) {
+    axios
+      .post("https://api.mr-ahmed-gaber.com/api/PayMob/confirm-payment", {
+        orderId: orderId,
+      })
+      .then(() => {
+        console.log("Payment confirmed");
+      })
+      .catch((err) => {
+        console.log("Payment confirm error", err);
+      });
+  }
+}, [location]);
+
   const linkStyle = "flex items-center p-2 text-gray-900 rounded-lg group";
   const menuItems = [
     {

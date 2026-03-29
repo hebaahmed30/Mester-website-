@@ -17,7 +17,6 @@ import StudentExamList from "./componet/Students/StudentExamsList";
 import TakeExam from "./componet/Students/TakeExam";
 import Payments from "./componet/Payments/Payment";
 import PaymentManagement from "./componet/Payments/PaymentManagement";
-import PageNotFound from "./componet/PageNotFound";
 import CourseContent from "./componet/Students/CourseContent";
 import AvailableCourses from "./componet/Admin/AvailableCourses";
 import ExamesResults from "./componet/Admin/ExamesResults";
@@ -25,16 +24,13 @@ import CreateExam from "./componet/Admin/CreateExam";
 import AddQuestion from "./componet/Admin/AddQuestion";
 import PaymobPayment from "./componet/PayMob/PayMobPayment";
 import PaymentCallback from "./componet/PayMob/PaymentCallback";
+import PaymentResult from "./Pages/payment-result";
 import PayMobWrapper from "./componet/PayMob/PayMobWrapper";
 import AvailableCoursesToBuy from "./componet/Students/AvailableCoursesToBuy";
 import AvailableExams from "./componet/Students/AvailableExams";
 import ExamDetails from "./componet/Students/ExamDetails";
 import ExamResultsManagement from "./componet/Admin/ExamResultsManagement";
 import ExamResultsDetail from "./componet/Admin/ExamResultsDetail";
-
-
-
-
 import BlackList from "./componet/Admin/BlackList";
 import DashboardStudent from "./componet/Students/DashboardStudent";
 import StudentExam from "./componet/Students/StudentExams";
@@ -56,7 +52,7 @@ import RefundPolicy from "./Pages/RefundPolicy";
 import ShippingPolicy from "./Pages/shipping-policy";
 import AboutUs from "./Pages/AboutUs";
 import Checkout from "./Checkout";
-
+import PageNotFound from "./componet/PageNotFound";
 
 import UsersForCourses from "./componet/Admin/UsersForCourses";
 import { useEffect } from "react";
@@ -65,14 +61,19 @@ function App() {
   const navigate = useNavigate()
   const checkCookies = useCheckCookiesValues();
   // const location=useLocation()
-  useEffect(() => {
-    // نفذ فحص الكوكيز مرة واحدة فقط للتوجيه العام
-    checkCookies();
-    const search = window.location.search.split("=");
-    if (search.length === 2 && search[0] === "?route") {
-      navigate("/" + search[1]);
-    }
-  }, []);
+useEffect(() => {
+  const path = window.location.pathname;
+
+  // امنع redirect لو في صفحة الدفع
+  if (path === "/payment-success") return;
+
+  checkCookies();
+
+  const search = window.location.search.split("=");
+  if (search.length === 2 && search[0] === "?route") {
+    navigate("/" + search[1]);
+  }
+}, []);
 
   return (
     <>
@@ -81,7 +82,6 @@ function App() {
         <Route path="/index.html" element={<HomePage />} />
         <Route path="login" element={<Login />} />
         <Route path="signup" element={<SignUp />} />
-        <Route path="*" element={<PageNotFound />} />
         <Route path="reset" element={<CreateNewPassword />} />
         <Route path="forget-password" element={<ForgetPassword />} />
         <Route path="verificationCode" element={<VerificationCode />} />
@@ -96,12 +96,14 @@ function App() {
         <Route path="payment-management" element={<PaymentManagement />} />
         <Route path="payments" element={<Payments />} />
         <Route path="paymob-payment/:courseId/:coursePrice/:courseName" element={<PayMobWrapper />} />
-        <Route path="paymob-callback" element={<PaymentCallback />} />
+       <Route path="payment-callback" element={<PaymentCallback />} />
+       <Route path="/payment-result" element={<PaymentResult />} />
         <Route path="course-payment/:courseId" element={<PayMobWrapper />} />
         <Route path="buy-courses" element={<AvailableCoursesToBuy />} />
         <Route path="available-exams" element={<AvailableExams />} />
         <Route path="exam-details/:examId" element={<ExamDetails />} />
         <Route path="/checkout" element={<Checkout />} />
+          <Route path="*" element={<PageNotFound />} />
 
 
         {/* Payment Route */}

@@ -63,7 +63,7 @@ const sendRequest = async (
         return await sendRequest(baseURL, endpoint, method, data, customHeaders, hasHeaders)
       }
     }
-    return error.response
+   throw error
   }
 }
 

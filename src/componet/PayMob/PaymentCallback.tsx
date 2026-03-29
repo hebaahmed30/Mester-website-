@@ -1,11 +1,11 @@
-// امسح "use client" لو مش Next.js كامل
+
 import { useEffect, useState, useContext } from "react"
 import { ThemeContext } from "../Context/ThemeContext"  // تأكد من الـ path
 import { CheckCircle, XCircle, Loader2 } from "lucide-react"
-import { useLocation, useNavigate } from "react-router-dom"  // غير لـ React Router
+import { useLocation, useNavigate } from "react-router-dom"  
 import sendRequest from "../Shared/sendRequest.ts"
 import { BASEURL, PAYMOB_PAYMENT_CALLBACK_ENDPOINT } from "../API/API"
-import { toast } from "react-toastify" // اختياري، لو مثبت
+import { toast } from "react-toastify"
 
 export default function PaymentCallback() {
   const { isDarkMode } = useContext(ThemeContext)!
@@ -14,49 +14,29 @@ export default function PaymentCallback() {
   const [status, setStatus] = useState<"loading" | "success" | "failed" | "error">("loading")
   const [message, setMessage] = useState("")
 
-  useEffect(() => {
-    const processCallback = async () => {
-      try {
-        // اقرأ query params من location.search (مثل ?success=true&order_id=123)
-        const searchParams = new URLSearchParams(location.search)
-        const callbackData: Record<string, string> = {}
-        searchParams.forEach((value, key) => {
-          callbackData[key] = value
-        })
+useEffect(() => {
+  const searchParams = new URLSearchParams(location.search);
 
-        const response = await sendRequest(BASEURL, PAYMOB_PAYMENT_CALLBACK_ENDPOINT, "POST", callbackData)
+  const success = searchParams.get("success");
 
-        console.log("PayMob callback response:", response);
-        console.log("Callback data:", callbackData);
-
-        if (response.status === 200 || response.status === 201) {
-          setStatus("success")
-          setMessage(response.data?.message || "تم الدفع بنجاح وتم إضافتك للكورس")
-          toast.success("تم الدفع بنجاح!")
-        } else {
-          setStatus("failed")
-          setMessage(response.data?.message || `فشل في التحقق من عملية الدفع: ${response.status}`)
-          toast.error(response.data?.message || "فشل في التحقق")
-        }
-      } catch (error: any) {
-        setStatus("error")
-        setMessage(error.message || "حدث خطأ أثناء معالجة نتيجة الدفع")
-        toast.error(error.message || "حدث خطأ!")
-      }
-    }
-
-    processCallback()
-  }, [location.search])  // اعتمد على location.search
+  if (success === "true") {
+    setStatus("success");
+    setMessage("تم الدفع بنجاح وتم إضافتك للكورس");
+  } else {
+    setStatus("failed");
+    setMessage("فشل في عملية الدفع");
+  }
+}, [location.search]);
 
   const handleGoToCourses = () => {
-    navigate("/student/courses")  // استخدم navigate بدل router.push
+    navigate("/student/courses")  
   }
 
   const handleGoHome = () => {
-    navigate("/")  // نفس الشيء
+    navigate("/")  
   }
 
-  // باقي الـ JSX نفسه (الـ return statement) بدون تغيير
+  
   return (
     <div className={`min-h-screen flex items-center justify-center p-6 ${isDarkMode ? "bg-gray-900" : "bg-gray-50"}`}>
       <div className={`w-full max-w-md rounded-xl shadow-lg p-6 transition-all duration-300 ${isDarkMode ? "bg-gray-800 border border-gray-700" : "bg-white border border-gray-200"

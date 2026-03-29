@@ -32,13 +32,16 @@ export default function PayMobPayment({
   const handleStartPayment = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    const rawId = cookies.get("id")
-    const studentId = Number(rawId)
-    if (!studentId || Number.isNaN(studentId)) {
-      toast.error("يرجى تسجيل الدخول بحساب الطالب أولاً")
-      return
-    }
+ const rawId = cookies.get("id")
+console.log("Raw ID:", rawId) // 👈 للتأكد
 
+const studentId = Number(rawId)
+
+if (!studentId || Number.isNaN(studentId)) {
+  console.log("Invalid studentId:", studentId) // 👈 مهم
+  toast.error("يرجى تسجيل الدخول بحساب الطالب أولاً")
+  return
+}
     setIsLoading(true)
     setPaymentStatus("processing")
     setErrorMessage("")
@@ -48,7 +51,7 @@ export default function PayMobPayment({
         studentId,
         courseId: courseId,
       }
-
+      console.log("FINAL DATA SENT:", paymentData)
       console.log("PayMob payment data:", paymentData)
       console.log("PayMob endpoint:", PAYMOB_START_PAYMENT_ENDPOINT)
       console.log("Full URL:", `${BASEURL}/${PAYMOB_START_PAYMENT_ENDPOINT}`)
