@@ -1,6 +1,6 @@
 
 import { useEffect, useState, useContext } from "react"
-import { ThemeContext } from "../Context/ThemeContext"  // تأكد من الـ path
+import { ThemeContext } from "../Context/ThemeContext" 
 import { CheckCircle, XCircle, Loader2 } from "lucide-react"
 import { useLocation, useNavigate } from "react-router-dom"  
 import sendRequest from "../Shared/sendRequest.ts"

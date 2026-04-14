@@ -38,7 +38,6 @@ export const PAYMOB_PAYMENT_CALLBACK_ENDPOINT = "PayMob/callback"
 export const PAYMOB_START_WALLET_ENDPOINT = "PayMob/start-wallet";
 export const PAYMOB_START_KIOSK_ENDPOINT = "PayMob/start-kiosk";
 
-
 export const CREATE_EXAM_ENDPOINT = "Exams"
 export const ADD_QUESTION_ENDPOINT = "Exams/question"
 export const GET_EXAM_ENDPOINT = "Exams"

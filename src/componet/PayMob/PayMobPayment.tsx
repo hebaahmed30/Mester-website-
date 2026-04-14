@@ -77,7 +77,7 @@ if (!studentId || Number.isNaN(studentId)) {
         onPaymentError?.(String(msg))
         toast.error(String(msg))
       } else {
-        throw new Error(response.message || `فشل في بدء عملية الدفع: ${response.status}`)
+        throw new Error(response.data?.message || `فشل في بدء عملية الدفع: ${response.status}`)
       }
     } catch (error: any) {
       setPaymentStatus("error")
