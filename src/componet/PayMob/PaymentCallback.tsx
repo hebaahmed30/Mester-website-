@@ -18,24 +18,38 @@ useEffect(() => {
   const searchParams = new URLSearchParams(location.search);
 
   const success = searchParams.get("success");
+  const orderId = searchParams.get("order");
 
-  if (success === "true") {
-    setStatus("success");
-    setMessage("تم الدفع بنجاح وتم إضافتك للكورس");
+  if (success === "true" && orderId) {
+
+    sendRequest(BASEURL, `/Payment/verify?orderId=${orderId}`, "GET")
+      .then((res) => {
+        if (res.data.isPaid) {
+          setStatus("success");
+          setMessage("تم الدفع بنجاح وتم إضافتك للكورس");
+        } else {
+          setStatus("failed");
+          setMessage("لم يتم تأكيد الدفع");
+        }
+      })
+      .catch(() => {
+        setStatus("error");
+        setMessage("حدث خطأ أثناء التحقق");
+      });
+
   } else {
     setStatus("failed");
     setMessage("فشل في عملية الدفع");
   }
 }, [location.search]);
 
-  const handleGoToCourses = () => {
-    navigate("/student/courses")  
-  }
+const handleGoToCourses = () => {
+  navigate("/student/courses");
+};
 
-  const handleGoHome = () => {
-    navigate("/")  
-  }
-
+const handleGoHome = () => {
+  navigate("/");
+};
   
   return (
     <div className={`min-h-screen flex items-center justify-center p-6 ${isDarkMode ? "bg-gray-900" : "bg-gray-50"}`}>
