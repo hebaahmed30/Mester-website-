@@ -11,16 +11,27 @@ export const handleSignOut = async () => {
   const cookies = Cookies();
 
   try {
-    const res = await sendRequest(BASEURL, `${SIGNOUT}`, "DELETE");
+    const token = localStorage.getItem("token");
 
-    cookies.removeAll();
+    await sendRequest(
+      BASEURL,
+      SIGNOUT,
+      "POST",
+      {},
+      {
+        Authorization: `Bearer ${token}`
+      }
+    );
 
-    window.location.pathname = "/";
   } catch (error) {
     console.error("try to make signout", error);
-    return false;
   }
+
+  cookies.removeAll();
+  localStorage.clear();
+  window.location.pathname = "/login";
 };
+
 function NavbarApp() {
   const navigate = useNavigate();
   const cookies = Cookies();

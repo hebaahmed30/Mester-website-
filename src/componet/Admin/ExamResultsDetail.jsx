@@ -38,48 +38,28 @@ const ExamResultsDetail = () => {
                 }
 
                 // محاولة جلب الطلاب الذين أدوا الامتحان
-                try {
-                    const studentsResponse = await sendRequestGet(`${BASEURL}/Exams/${examId}/students`);
-                    if (studentsResponse.status === 200) {
-                        const studentsData = Array.isArray(studentsResponse.data) ? studentsResponse.data : [];
-                        setStudents(studentsData);
-                    } else {
-                        setStudents([]);
-                    }
-                } catch (error) {
-                    console.log("Students endpoint not available, using mock data");
-                    // Mock data للتجربة
-                    const mockStudents = [
-                        {
-                            id: 10,
-                            firstName: "أحمد",
-                            lastName: "محمد",
-                            email: "ahmed@example.com",
-                            submissionDate: "2025-10-02T15:30:00",
-                            currentGrade: null,
-                            status: "submitted"
-                        },
-                        {
-                            id: 11,
-                            firstName: "فاطمة",
-                            lastName: "علي",
-                            email: "fatima@example.com",
-                            submissionDate: "2025-10-02T15:45:00",
-                            currentGrade: 85,
-                            status: "graded"
-                        },
-                        {
-                            id: 12,
-                            firstName: "محمد",
-                            lastName: "أحمد",
-                            email: "mohamed@example.com",
-                            submissionDate: "2025-10-02T16:00:00",
-                            currentGrade: null,
-                            status: "submitted"
-                        }
-                    ];
-                    setStudents(mockStudents);
-                }
+              const resultsResponse = await sendRequestGet(`${BASEURL}/Admin/exam-results`);
+
+if (resultsResponse.status === 200 && Array.isArray(resultsResponse.data)) {
+
+    const filtered = resultsResponse.data.filter(r => r.examId == examId);
+
+    const studentsFormatted = filtered.map(item => ({
+        id: item.studentId,
+        firstName: item.studentName,
+        lastName: "",
+        email: "",
+        submissionDate: new Date().toISOString(),
+        currentGrade: item.totalGrade,
+        status: "graded",
+        answers: item.answers
+    }));
+
+    setStudents(studentsFormatted);
+
+} else {
+    setStudents([]);
+}
             } catch (error) {
                 console.error("Error fetching exam results:", error);
                 toast.error("حدث خطأ في تحميل نتائج الامتحان");
@@ -94,64 +74,15 @@ const ExamResultsDetail = () => {
         }
     }, [examId, navigate]);
 
-    const handleViewStudentAnswers = async (student) => {
-        try {
-            setSelectedStudent(student);
-            setGradingLoading(true);
-
-            // محاولة جلب إجابات الطالب
-            try {
-                const answersResponse = await sendRequestGet(`${BASEURL}/Exams/${examId}/student/${student.id}/answers`);
-
-                if (answersResponse.status === 200) {
-                    setStudentAnswers(answersResponse.data || []);
-                }
-            } catch (error) {
-                console.log("Student answers endpoint not available, using mock data");
-                // Mock data للتجربة
-                setStudentAnswers([
-                    {
-                        questionId: 1,
-                        questionText: "ما هو ناتج 2 + 2؟",
-                        studentAnswer: "4",
-                        correctAnswer: "4",
-                        isCorrect: true,
-                        questionDegree: 10,
-                        earnedDegree: 10
-                    },
-                    {
-                        questionId: 2,
-                        questionText: "ما هو ناتج 5 × 3؟",
-                        studentAnswer: "14",
-                        correctAnswer: "15",
-                        isCorrect: false,
-                        questionDegree: 10,
-                        earnedDegree: 0
-                    },
-                    {
-                        questionId: 3,
-                        questionText: "ما هو الجذر التربيعي لـ 16؟",
-                        studentAnswer: "4",
-                        correctAnswer: "4",
-                        isCorrect: true,
-                        questionDegree: 15,
-                        earnedDegree: 15
-                    }
-                ]);
-            }
-        } catch (error) {
-            console.error("Error fetching student answers:", error);
-            toast.error("حدث خطأ في تحميل إجابات الطالب");
-        } finally {
-            setGradingLoading(false);
-        }
-    };
-
+   const handleViewStudentAnswers = async (student) => {
+    setSelectedStudent(student);
+    setStudentAnswers(student.answers || []);
+};
     const handleGiveGrade = async (studentId, grade, feedback = "") => {
         try {
             setGradingLoading(true);
 
-            // محاولة استخدام endpoint الامتحانات أولاً
+          
             try {
                 const gradeData = {
                     examId: parseInt(examId),

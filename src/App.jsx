@@ -31,6 +31,7 @@ import AvailableExams from "./componet/Students/AvailableExams";
 import ExamDetails from "./componet/Students/ExamDetails";
 import ExamResultsManagement from "./componet/Admin/ExamResultsManagement";
 import ExamResultsDetail from "./componet/Admin/ExamResultsDetail";
+import ExamAnswers from "./componet/Admin/ExamAnswers";
 import BlackList from "./componet/Admin/BlackList";
 import DashboardStudent from "./componet/Students/DashboardStudent";
 import StudentExam from "./componet/Students/StudentExams";
@@ -144,6 +145,7 @@ useEffect(() => {
             />
             <Route path="addcourse" element={<AddCourses />} />
             <Route path="availablecourses" element={<AvailableCourses />} />
+            <Route path="exam-answers" element={<ExamAnswers />} />
             <Route path="exam-result" element={<ExamesResults />} />
             <Route path="create-exam" element={<CreateExam />} />
             <Route path="add-question" element={<AddQuestion />} />

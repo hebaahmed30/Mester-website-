@@ -38,7 +38,7 @@ const SideBarAdmin = () => {
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
-          stroke-width="1.5"
+          strokeWidth="1.5"
           stroke="currentColor"
           className="w-6 h-6"
         >
@@ -58,7 +58,7 @@ const SideBarAdmin = () => {
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
-          stroke-width="1.5"
+          strokeWidth="1.5"
           stroke="currentColor"
           className="w-6 h-6"
         >
@@ -71,14 +71,14 @@ const SideBarAdmin = () => {
       ),
     },
     {
-      to: "/dashboard/exam-result",
+      to: "/dashboard/exam-answers",
       text: "نتائج الامتحانات",
       svg: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
-          stroke-width="1.5"
+         strokeWidth="1.5"
           stroke="currentColor"
           className="w-6 h-6"
         >
@@ -98,7 +98,7 @@ const SideBarAdmin = () => {
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
-          stroke-width="1.5"
+          strokeWidth="1.5"
           stroke="currentColor"
           className="w-6 h-6"
         >
@@ -118,7 +118,7 @@ const SideBarAdmin = () => {
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
-          stroke-width="1.5"
+          strokeWidth="1.5"
           stroke="currentColor"
           className="w-6 h-6"
         >
@@ -138,7 +138,7 @@ const SideBarAdmin = () => {
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
-          stroke-width="1.5"
+          strokeWidth="1.5"
           stroke="currentColor"
           className="w-6 h-6"
         >
@@ -158,7 +158,7 @@ const SideBarAdmin = () => {
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
-          stroke-width="1.5"
+          strokeWidth="1.5"
           stroke="currentColor"
           className="w-6 h-6"
         >

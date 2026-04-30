@@ -113,7 +113,7 @@ const ExamesResults = () => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const response = await sendRequestGet(GETASSIGNMENTS);
+       const response = await sendRequestGet(`${BASEURL}/Admin/exam-results`);
         const arr = Array.isArray(response?.data) ? response.data : [];
         setData(arr);
       } catch (error) {

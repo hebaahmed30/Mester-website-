@@ -24,12 +24,12 @@ const FormCourses = ({ title }) => {
     { name: " امتحان علي الوحدة", pdfFiles: [], videoFiles: [] },
   ]);
   const imageCourseRef = useRef(null);
-  const [stuDegree, setStuDegree] = useState();
-  const [coursePrice, setCoursePrice] = useState();
-  const [Hourscourse, setHourscourse] = useState();
+const [stuDegree, setStuDegree] = useState("");
+const [coursePrice, setCoursePrice] = useState("");
+const [Hourscourse, setHourscourse] = useState("");
   const [CourseDescription, setcourseDescription] = useState("");
   const [selectedStage, setSelectedStage] = useState("");
-  const [isLoading, setIsLoading] = useState();
+const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     document.title = " اضافة وحده";
